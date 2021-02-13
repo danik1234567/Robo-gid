@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>main page</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main_page/main.css' %}">
 </head>
 <body>
@@ -18,22 +18,37 @@
                 <h1 >Квантумы</h1>
             </div>
             <div class="kvantum-logo">
-                <img alt="it_kvant" src="{% static 'img/main_page/it_kvant.png' %}" width=250px height=250px>
+                <a href="{% url 'kvants:it-kvant-page' %}">
+                    <img alt="it_kvant" src="{% static 'img/main_page/it_kvant.jpg' %}" width=250px height=250px>
+                </a>
             </div>
             <div class="kvantum-logo">
-                <img alt="air_kvant" src="{% static 'img/main_page/air_kvant.png' %}" width=250px height=250px>
+                <a href="{% url 'kvants:aero-kvant-page' %}">
+                    <img alt="air_kvant" src="{% static 'img/main_page/air_kvant.jpg' %}" width=250px height=250px>
+                </a>
             </div>
             <div class="kvantum-logo">
-                <img alt="auto_kvant" src="{% static 'img/main_page/auto_kvant.png' %}" width=250px height=250px>
+                <a href="{% url 'kvants:auto-kvant-page' %}">
+                    <img alt="auto_kvant" src="{% static 'img/main_page/auto_kvant.jpg' %}" width=250px height=250px>
+                </a>
             </div>
             <div class="kvantum-logo">
-                <img alt="high_tech_kvant" src="{% static 'img/main_page/high_tech_kvant.png' %}" width=250px height=250px>
+                <a href="{% url 'kvants:auto-kvant-page' %}">
+                    <img alt="high_tech_kvant" src="{% static 'img/main_page/high_tech_kvant.jpg' %}" width=250px height=250px>
+                </a>
             </div>
-            <div class="kvantum-logo" id="circled-logo-right">
-                <img alt="prom_design_kvant" src="{% static 'img/main_page/prom_design_kvant.png' %}" width=250px height=250px>
+            <div class="kvantum-logo">
+                <a href="{% url 'kvants:design-kvant-page' %}">
+                     <img alt="prom_design_kvant" src="{% static 'img/main_page/prom_design_kvant.png' %}" width=250px height=250px>
+                </a>
             </div>
-            <div class="kvantum-logo" id="circled-logo-left">
-                <img alt="prom_robo_kvant" src="{% static 'img/main_page/prom_robo_kvant.png' %}" width=250px height=250px>
+            <div class="kvantum-logo">
+                <a href="{% url 'kvants:robo-kvant-page' %}">
+                    <img alt="prom_robo_kvant" src="{% static 'img/main_page/prom_robo_kvant.png' %}" width=250px height=250px>
+                </a>
+            </div>
+            <div class="kvantums-footer">
+                <img alt="footer" src="{% static 'img/main_page/footer.jpg' %}">
             </div>
         </div>
 
