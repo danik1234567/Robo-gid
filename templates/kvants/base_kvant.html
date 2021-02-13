@@ -1,0 +1,23 @@
+<!-- This is the main html template to load all pages about each kvant -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/kvants/base_kvant.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="description">
+            <p>{{ description }}</p>
+        </div>
+        <div class="logo">
+            {% with logo=logo_path %}
+              <img alt="title" src="{% static logo %}">
+            {% endwith %}
+        </div>
+    </div>
+</body>
+</html>
