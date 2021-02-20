@@ -54,7 +54,7 @@
     margin-bottom: 150px;
 }
 
-#kvantums-heading {
+.kvantums-heading {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 1;
@@ -66,4 +66,47 @@
     grid-column-end: 3;
     grid-row-start: 5;
     grid-row-end: 6;
+}
+
+/* timetables' styles */
+#timetable-it {
+    position: absolute;
+    margin-top: 20%;
+    margin-left: 22%;
+    visibility: hidden;
+}
+
+#timetable-aero {
+    position: absolute;
+    margin-top: 20%;
+    margin-left: 22%;
+    visibility: hidden;
+}
+
+#timetable-auto {
+    position: absolute;
+    margin-top: 20%;
+    margin-left: 22%;
+    visibility: hidden;
+}
+
+#timetable-hi-tech {
+    position: absolute;
+    margin-top: 20%;
+    margin-left: 22%;
+    visibility: hidden;
+}
+
+#timetable-prom-design {
+    position: absolute;
+    margin-top: 20%;
+    margin-left: 22%;
+    visibility: hidden;
+}
+
+#timetable-prom-robo {
+    position: absolute;
+    margin-top: 20%;
+    margin-left: 22%;
+    visibility: hidden;
 }
