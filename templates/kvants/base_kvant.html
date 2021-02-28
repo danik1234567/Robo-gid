@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
-    <link rel="stylesheet" href="{% static 'css/kvants/base_kvant.css' %}">
     <!-- HTML code below is taken from robo74.ru -->
       <base href="https://robo74.ru/">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -92,8 +91,6 @@
 </head>
 <body>
     <!-- html source is loaded from data folder in kvants app -->
-    <div class="container">
-        {{ html_source }}
-    </div>
+    {{ html_source }}
 </body>
 </html>
