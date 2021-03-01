@@ -1,9 +1,10 @@
 
 
-path_not_sorted = "/home/joker/Desktop/answerdatabase/answer_datebase1.txt"
+not_sorted_db = []
+
+path_not_sorted = not_sorted_db.read(r'C:\Users\ht6\Documents\ozornin\sort\get_database.txt')
 
 sorted_db = []
-
 
 def sort_db(path):
     global not_ok_list
@@ -12,9 +13,11 @@ def sort_db(path):
     for i in range(len(g)):
         g[i] = g[i].rstrip('\n')
     not_sort.close()
+    separate = ''.join(g)
+    print(separate.split("\\\\"))
     return g
-    sorted_db = g
-sort_db()
+
+sorted_db = sort_db(path_not_sorted)
 
 
 
