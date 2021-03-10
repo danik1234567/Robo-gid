@@ -1,0 +1,22 @@
+#include <GyverStepper.h>
+
+GStepper< STEPPER2WIRE> stepper(1024, 2, 4, 7);
+
+void reset() {}
+
+void setAccelerationDeg(float accel) {}
+
+void setTargetDeg(float pos) {}
+
+float getCurrentDeg()
+{
+}
+
+void setup() {
+  stepper.setRunMode(FOLLOW_POS);
+  setAccelerationDeg(100);
+}
+void loop() {
+  setTargetDeg(1000);
+  void reset();
+}
