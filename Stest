@@ -2,21 +2,32 @@
 
 GStepper< STEPPER2WIRE> stepper(1024, 2, 4, 7);
 
-void reset() {}
-
-void setAccelerationDeg(float accel) {}
-
-void setTargetDeg(float pos) {}
-
-float getCurrentDeg()
+void movingForward()
 {
+  stepper.setTarget(1000, RELATIVE);
 }
+
+int command = 0;
 
 void setup() {
+  Serial.begin(115200);
   stepper.setRunMode(FOLLOW_POS);
-  setAccelerationDeg(100);
+  stepper.setAcceleration(100);
+  stepper.reset();
 }
+
 void loop() {
-  setTargetDeg(1000);
-  void reset();
+  int read_1 = Serial.read();
+  if (read_1 != -1) {
+    digitalWrite(13, HIGH);
+    command = read_1 - 48;
+    Serial.println(command);
+  }
+
+  if (command == 8)
+  {
+    movingForward();
+    Serial.println("q");
+  }
 }
+
