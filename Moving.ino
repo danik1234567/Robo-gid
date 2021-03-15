@@ -118,10 +118,10 @@ void loop() {
   else if (command == 54) {
     rotateRight(220);
   }
-  else if (commad == "Turn right") {
+  else if (command == "Turn right") {
     turnRight(220);
   }
-  else if (commad == "Turn left") {
+  else if (command == "Turn left") {
     turnLeft(220);
   }
   else if (command == 48) {
