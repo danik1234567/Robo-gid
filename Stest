@@ -1,33 +1,38 @@
 #include <GyverStepper.h>
 
-GStepper< STEPPER2WIRE> stepper(1024, 2, 4, 7);
-
-void movingForward()
-{
-  stepper.setTarget(1000, RELATIVE);
-}
+GStepper< STEPPER2WIRE> stepperl(1024, 2, 4, 7);
+GStepper< STEPPER2WIRE> stepperr(1024, 8, 12, 13);
 
 int command = 0;
+int distanse = 0;
+
+void  movingForward(int distanse) {
+  stepperl.setTarget(-distanse, RELATIVE);
+  stepperr.setTarget(distanse, RELATIVE);
+}
 
 void setup() {
   Serial.begin(115200);
-  stepper.setRunMode(FOLLOW_POS);
-  stepper.setAcceleration(100);
-  stepper.reset();
+  // режим следования к целевй позиции
+  stepperl.setRunMode(FOLLOW_POS);
+  // установка макс. скорости в шагах/сек
+  stepperl.setMaxSpeed(400);
+  // установка ускорения в шагах/сек/сек
+  stepperl.setAcceleration(500);
 }
-
 void loop() {
-  int read_1 = Serial.read();
-  if (read_1 != -1) {
-    digitalWrite(13, HIGH);
-    command = read_1 - 48;
-    Serial.println(command);
-  }
+    int read_1 = Serial.read();
+    if (read_1 != -1) {
+      command = read_1 - 48;
+      Serial.println(command);
+    }
 
-  if (command == 8)
-  {
-    movingForward();
-    Serial.println("q");
+  if (command == 8) {
+    movingForward(1000);
+    command = 0;
+  }
+  else if (command == 2) {
+    stepperl.setTarget(-1000, RELATIVE);
+    command = 0;
   }
 }
-
