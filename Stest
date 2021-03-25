@@ -1,24 +1,37 @@
 #include <GyverStepper.h>
 
-GStepper< STEPPER2WIRE> stepperl(1024, 2, 4, 7);
-GStepper< STEPPER2WIRE> stepperr(1024, 8, 12, 13);
+GStepper< STEPPER2WIRE> stepperL(1024, 2, 4, 7);
+GStepper< STEPPER2WIRE> stepperR(1024, 8, 12, 13);
 
 int command = 0;
 int distanse = 0;
 
 void  movingForward(int distanse) {
-  stepperl.setTarget(-distanse, RELATIVE);
-  stepperr.setTarget(distanse, RELATIVE);
+  stepperL.setTarget(-distanse, RELATIVE);
+  stepperR.setTarget(distanse, RELATIVE);
+}
+void  movingBack(int distanse) {
+  stepperL.setTarget(distanse, RELATIVE);
+  stepperR.setTarget(-distanse, RELATIVE);
+}
+void  rotateRight(int distanse) {
+  stepperL.setTarget(-distanse, RELATIVE);
+  stepperR.setTarget(-distanse, RELATIVE);
+}
+void  rotateLeft(int distanse) {
+  stepperL.setTarget(distanse, RELATIVE);
+  stepperR.setTarget(distanse, RELATIVE);
 }
 
 void setup() {
   Serial.begin(115200);
-  // режим следования к целевй позиции
-  stepperl.setRunMode(FOLLOW_POS);
-  // установка макс. скорости в шагах/сек
-  stepperl.setMaxSpeed(400);
-  // установка ускорения в шагах/сек/сек
-  stepperl.setAcceleration(500);
+  stepperL.setRunMode(FOLLOW_POS);
+  stepperL.setMaxSpeed(400);
+  stepperL.setAcceleration(500);
+	
+  stepperR.setRunMode(FOLLOW_POS);
+  stepperR.setMaxSpeed(400);
+  stepperR.setAcceleration(500);
 }
 void loop() {
     int read_1 = Serial.read();
@@ -32,7 +45,15 @@ void loop() {
     command = 0;
   }
   else if (command == 2) {
-    stepperl.setTarget(-1000, RELATIVE);
+    movingBack(1000);
+    command = 0;
+  }
+  else if (command == 6) {
+    rotateRight(1000);
+    command = 0;
+  }
+  else if (command == 4) {
+    rotateLeft(1000);
     command = 0;
   }
 }
