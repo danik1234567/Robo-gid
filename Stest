@@ -4,7 +4,7 @@ GStepper< STEPPER2WIRE> stepper(1024, 2, 4, 7);
 
 void setup() {
   stepper.setRunMode(KEEP_SPEED);
-  stepper.setSpeed(50);
+  stepper.setSpeed(1000);
 }
 void loop() {
   stepper.tick();
