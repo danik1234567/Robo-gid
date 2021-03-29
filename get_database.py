@@ -5,4 +5,4 @@ def read_db(path):
     return db
 
 
-read_db('database.txt')
+db = read_db('answer_databse.txt')
