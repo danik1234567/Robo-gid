@@ -1,10 +1,10 @@
 #include <GyverStepper.h>
 
-GStepper< STEPPER2WIRE> stepperL(1024, 2, 4, 7);
-GStepper< STEPPER2WIRE> stepperR(1024, 8, 12, 13);
+GStepper< STEPPER2WIRE> stepperL(3328, 2, 4, 7);
+GStepper< STEPPER2WIRE> stepperR(3328, 8, 12, 13);
 
-int command = 0;
-int distanse = 0;
+String command;
+int distanse;
 
 void  movingForward(int distanse) {
   stepperL.setTarget(-distanse, RELATIVE);
@@ -30,30 +30,25 @@ void setup() {
   stepperL.setAcceleration(500);
 
   stepperR.setRunMode(FOLLOW_POS);
-  stepperR.setMaxSpeed(400);
+  stepperR.setMaxSpeed(1000);
   stepperR.setAcceleration(500);
 }
 void loop() {
-  int read_1 = Serial.read();
-  if (read_1 != -1) {
-    command = read_1 - 48;
+  if (Serial.available()) {
+    command = Serial.readString();
     Serial.println(command);
-  }
 
-  if (command == 8) {
-    movingForward(1000);
-    command = 0;
-  }
-  else if (command == 2) {
-    movingBack(1000);
-    command = 0;
-  }
-  else if (command == 6) {
-    rotateRight(1000);
-    command = 0;
-  }
-  else if (command == 4) {
-    rotateLeft(1000);
-    command = 0;
+    if (command == "Forward") {
+      stepperL.setTarget(1000, RELATIVE);
+    }
+    else if (command == "Back") {
+      movingBack(1000);
+    }
+    else if (command == "Right") {
+      rotateRight(1000);
+    }
+    else if (command == "Left") {
+      rotateLeft(1000);
+    }
   }
 }
