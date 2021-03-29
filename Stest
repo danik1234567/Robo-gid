@@ -1,11 +1,27 @@
 #include <GyverStepper.h>
 
-GStepper< STEPPER2WIRE> stepper(1024, 2, 4, 7);
+GStepper< STEPPER2WIRE> stepper(3328, 2, 4, 7);
 
 void setup() {
-  stepper.setRunMode(KEEP_SPEED);
-  stepper.setSpeed(1000);
+  Serial.begin(115200);
+  // режим следования к целевй позиции
+  stepper.setRunMode(FOLLOW_POS);
+  // установка макс. скорости в шагах/сек
+  stepper.setMaxSpeed(1000);
+  // установка ускорения в шагах/сек/сек
+  stepper.setAcceleration(500);
 }
 void loop() {
-  stepper.tick();
+  // просто крутим туды-сюды
+  if (!stepper.tick()) {
+    static bool dir;
+    dir = !dir;
+    stepper.setTarget(dir ? -3328 : 3328);
+  }
+  // график положения
+  static uint32_t tmr2;
+  if (millis() - tmr2 > 20) {
+    tmr2 = millis();
+    Serial.println(stepper.getCurrent());
+  }
 }
