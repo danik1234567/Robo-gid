@@ -16,7 +16,7 @@ void loop() {
   if (!stepper.tick()) {
     static bool dir;
     dir = !dir;
-    stepper.setTarget(dir ? -3328 : 3328);
+    stepper.setTargetDeg(dir ? -360 : 360);
   }
   // график положения
   static uint32_t tmr2;
