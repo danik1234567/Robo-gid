@@ -3,7 +3,7 @@
 GStepper< STEPPER2WIRE> stepperL(3328, 2, 4, 7);
 GStepper< STEPPER2WIRE> stepperR(3328, 8, 12, 13);
 
-String command;
+int command;
 int distanse;
 
 void  movingForward(int distanse) {
@@ -34,21 +34,27 @@ void setup() {
   stepperR.setAcceleration(500);
 }
 void loop() {
-  if (Serial.available()) {
-    command = Serial.readString();
-    Serial.println(command);
 
-    if (command == "Forward") {
-      stepperL.setTarget(1000, RELATIVE);
-    }
-    else if (command == "Back") {
-      movingBack(1000);
-    }
-    else if (command == "Right") {
-      rotateRight(1000);
-    }
-    else if (command == "Left") {
-      rotateLeft(1000);
+  if (!stepperL.tick()) {
+    if (Serial.available()) {
+      command = Serial.read() - 48;
+      Serial.println(command);
+
+      if (command == 8) {
+        
+        Serial.println("qq");
+        stepperL.setTarget(1000, RELATIVE);
+        Serial.println("qq");
+      }
+      else if (command == 2) {
+        movingBack(1000);
+      }
+      else if (command == 6) {
+        rotateRight(1000);
+      }
+      else if (command == 4) {
+        rotateLeft(1000);
+      }
     }
   }
 }
