@@ -1,0 +1,52 @@
+#include <GyverStepper.h>
+
+GStepper< STEPPER2WIRE> stepperL(3328, 2, 4, 7);
+GStepper< STEPPER2WIRE> stepperR(3328, 8, 12, 13);
+
+String command;
+int distanse = 0;
+
+void doing(command)
+{
+  if (command == "Forward") {
+      stepperL.setTargetDeg(distanse, RELATIVE);
+      stepperR.setTargetDeg(-distanse, RELATIVE);
+    }
+    else if (command == "Back") {
+      stepperL.setTargetDeg(-distanse, RELATIVE);
+      stepperR.setTargetDeg(distanse, RELATIVE);
+    }
+    else if (command == "Right") {
+      stepperL.setTargetDeg(-distanse, RELATIVE);
+      stepperR.setTargetDeg(-distanse, RELATIVE);
+    }
+    else if (command == "Left") {
+      stepperL.setTargetDeg(distanse, RELATIVE);
+      stepperR.setTargetDeg(distanse, RELATIVE);
+    }
+    else if (command == "ZoomIn"){
+      distanse = distanse + 360;
+    }
+    else if (command == "ZoomOut"){
+      distanse = distanse - 360;
+    }
+}
+
+void setup() {
+  Serial.begin(115200);
+  stepperL.setRunMode(FOLLOW_POS);
+  stepperL.setMaxSpeed(400);
+  stepperL.setAcceleration(500);
+
+  stepperR.setRunMode(FOLLOW_POS);
+  stepperR.setMaxSpeed(1000);
+  stepperR.setAcceleration(500);
+}
+void loop() {
+  if (Serial.available()) {
+    command = Serial.readString();
+    Serial.println(command);
+
+    doing();
+  }
+}
