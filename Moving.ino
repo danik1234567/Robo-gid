@@ -1,26 +1,39 @@
 #include <GyverStepper.h>
 
-GStepper< STEPPER2WIRE> stepperL(3328, 2, 4, 7);
-GStepper< STEPPER2WIRE> stepperR(3328, 8, 12, 13);
+GStepper< STEPPER2WIRE> stepperL(1024, 2, 3, 4);
+GStepper< STEPPER2WIRE> stepperR(1024, 5, 6, 7);
 
 int command;
-int distanse;
+int distanse = 1024;
 
-void  movingForward(int distanse) {
-  stepperL.setTarget(-distanse, RELATIVE);
-  stepperR.setTarget(distanse, RELATIVE);
-}
-void  movingBack(int distanse) {
-  stepperL.setTarget(distanse, RELATIVE);
-  stepperR.setTarget(-distanse, RELATIVE);
-}
-void  rotateRight(int distanse) {
-  stepperL.setTarget(-distanse, RELATIVE);
-  stepperR.setTarget(-distanse, RELATIVE);
-}
-void  rotateLeft(int distanse) {
-  stepperL.setTarget(distanse, RELATIVE);
-  stepperR.setTarget(distanse, RELATIVE);
+void doing(int comand)
+{
+
+  if (comand == -5) {
+    distanse = distanse + 1024;
+  }
+  else if (comand == -3) {
+    distanse = distanse - 1024;
+    if (distanse < 0)
+      distanse = -distanse;
+  }
+
+  else if (comand == 8) {
+    stepperL.setTarget(distanse, RELATIVE);
+    stepperR.setTarget(-distanse, RELATIVE);
+  }
+  else if (comand == 2) {
+    stepperL.setTarget(-distanse, RELATIVE);
+    stepperR.setTarget(distanse, RELATIVE);
+  }
+  else if (comand == 6) {
+    stepperL.setTarget(-distanse, RELATIVE);
+    stepperR.setTarget(-distanse, RELATIVE);
+  }
+  else if (comand == 4) {
+    stepperL.setTarget(distanse, RELATIVE);
+    stepperR.setTarget(distanse, RELATIVE);
+  }
 }
 
 void setup() {
@@ -34,27 +47,14 @@ void setup() {
   stepperR.setAcceleration(500);
 }
 void loop() {
+  if (Serial.available()) {
+    command = Serial.read() - 48;
+    Serial.println(command);
+  }
 
-  if (!stepperL.tick()) {
-    if (Serial.available()) {
-      command = Serial.read() - 48;
-      Serial.println(command);
-
-      if (command == 8) {
-        
-        Serial.println("qq");
-        stepperL.setTarget(1000, RELATIVE);
-        Serial.println("qq");
-      }
-      else if (command == 2) {
-        movingBack(1000);
-      }
-      else if (command == 6) {
-        rotateRight(1000);
-      }
-      else if (command == 4) {
-        rotateLeft(1000);
-      }
-    }
+  if (command == 0)
+    doing(command);
+  else if (!stepperL.tick() or !stepperR.tick()) {
+    doing(command);
   }
 }
