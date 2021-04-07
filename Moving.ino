@@ -19,12 +19,12 @@ void doing(int comand)
   }
 
   else if (comand == 8) {
-    stepperL.setTarget(distanse, RELATIVE);
-    stepperR.setTarget(-distanse, RELATIVE);
-  }
-  else if (comand == 2) {
     stepperL.setTarget(-distanse, RELATIVE);
     stepperR.setTarget(distanse, RELATIVE);
+  }
+  else if (comand == 2) {
+    stepperL.setTarget(distanse, RELATIVE);
+    stepperR.setTarget(-distanse, RELATIVE);
   }
   else if (comand == 6) {
     stepperL.setTarget(-distanse, RELATIVE);
@@ -33,6 +33,10 @@ void doing(int comand)
   else if (comand == 4) {
     stepperL.setTarget(distanse, RELATIVE);
     stepperR.setTarget(distanse, RELATIVE);
+  }
+  else if (comand == 0) {
+    stepperL.setTarget(0, RELATIVE);
+    stepperR.setTarget(0, RELATIVE);
   }
 }
 
@@ -54,7 +58,7 @@ void loop() {
 
   if (command == 0)
     doing(command);
-  else if (!stepperL.tick() or !stepperR.tick()) {
+  else if (!stepperL.tick() and !stepperR.tick()) {
     doing(command);
   }
 }
