@@ -5,35 +5,53 @@ GStepper< STEPPER2WIRE> stepperR(1024, 5, 6, 7);
 
 int command;
 int distanse = 1024;
+int listanse;
+int ristanse;
+
+void doing(int comand)
+{
 
 
-void S() {
-  stepperL.setTarget(0, RELATIVE);
-  stepperR.setTarget(0, RELATIVE);
-}
 
-void ZiD() {
-  distanse = distanse + 1024;
-}
-void ZoD() {
-  distanse = distanse - 1024;
-}
+  if (comand == -5) {
+    distanse = distanse + 1024;
+    Serial.println("Дистанция увеличена, милорд");
+  }
+  else if (comand == -3 && distanse > 1024) {
+    distanse = distanse - 1024;
+    Serial.println("Дистанция уменьшена, милорд");
+  }
 
-void MF() {
-  stepperL.setTarget(-distanse, RELATIVE);
-  stepperR.setTarget(distanse, RELATIVE);
-}
-void MB() {
-  stepperL.setTarget(distanse, RELATIVE);
-  stepperR.setTarget(-distanse, RELATIVE);
-}
-void RL() {
-  stepperL.setTarget(distanse, RELATIVE);
-  stepperR.setTarget(distanse, RELATIVE);
-}
-void RR() {
-  stepperL.setTarget(-distanse, RELATIVE);
-  stepperR.setTarget(-distanse, RELATIVE);
+  else if (comand == 5) {
+    if (Serial.available()) {
+      Serial.println(Serial.readString());
+    }
+    else
+      Serial.println(Serial.read());      
+  }
+  else if (comand == 8) {
+    listanse = -distanse;
+    ristanse = distanse;
+  }
+  else if (comand == 2) {
+    listanse = distanse;
+    ristanse = -distanse;
+  }
+  else if (comand == 4) {
+    listanse = -distanse;
+    ristanse = -distanse;
+  }
+  else if (comand == 6) {
+    listanse = distanse;
+    ristanse = distanse;
+  }
+  else if (comand == 0) {
+    listanse = 500 * (listanse / distanse);
+    ristanse = 500 * (ristanse / distanse);
+  }
+
+  stepperL.setTarget(listanse, RELATIVE);
+  stepperR.setTarget(ristanse, RELATIVE);
 }
 
 void setup() {
@@ -41,41 +59,21 @@ void setup() {
   stepperL.setRunMode(FOLLOW_POS);
   stepperL.setMaxSpeed(1000);
   stepperL.setAcceleration(500);
-  stepperL.enable();
 
   stepperR.setRunMode(FOLLOW_POS);
   stepperR.setMaxSpeed(1000);
   stepperR.setAcceleration(500);
-  stepperR.enable();
 }
 void loop() {
   if (Serial.available()) {
-    command = Serial.read() - 48;
+    command = Serial.read() - 48; //String().toInt();
     Serial.println(command);
   }
-  if (command == 0) {
-    S();
-  }
 
-  else if (command == -5) {
-    ZiD();
-  }
-  else if (command == -3) {
-    ZoD();
-  }
-  
-  if (!stepperL.tick() || !stepperR.tick()) {
-    if (command == 8) {
-      MF();
-    }
-    else if (command == 2) {
-      MB();
-    }
-    else if (command == 4) {
-      RL();
-    }
-    else if (command == 6) {
-      RR();
-    }
+  if (command == 0 || command == 5)
+    doing(command);
+  else if (!stepperL.tick() || !stepperR.tick()) {
+    doing(command);
+    command = 0;
   }
 }
