@@ -1,6 +1,6 @@
 #include <GyverStepper.h>
 
-GStepper< STEPPER2WIRE> stepper(3328, 2, 4, 7);
+GStepper< STEPPER2WIRE> stepper(3328, 2, 3, 4);
 
 void setup() {
   Serial.begin(115200);
