@@ -1,12 +1,14 @@
 #include <GyverStepper.h>
 
-GStepper< STEPPER2WIRE> stepperL(1024, 2, 3, 4);
-GStepper< STEPPER2WIRE> stepperR(1024, 5, 6, 7);
+GStepper< STEPPER2WIRE> stepperL(1000, 2, 3, 4);
+GStepper< STEPPER2WIRE> stepperR(1000, 5, 6, 7);
 
 int command;
-int distanse = 1024;
+int delta = 1000;
+int distanse = 1000;
 int listanse;
 int ristanse;
+int regime = 0;
 
 void doing(int comand)
 {
@@ -14,20 +16,16 @@ void doing(int comand)
 
 
   if (comand == -5) {
-    distanse = distanse + 1024;
+    distanse = distanse + delta;
     Serial.println("Дистанция увеличена, милорд");
   }
-  else if (comand == -3 && distanse > 1024) {
-    distanse = distanse - 1024;
+  else if (comand == -3 && distanse > 1000) {
+    distanse = distanse - delta;
     Serial.println("Дистанция уменьшена, милорд");
   }
 
   else if (comand == 5) {
-    if (Serial.available()) {
-      distanse = Serial.readString().toInt();
-      Serial.println("New distanse!");
-    }
-    Serial.println("Change distanse!");
+    regime = 1;
   }
   else if (comand == 8) {
     listanse = -distanse;
@@ -65,8 +63,9 @@ void setup() {
   stepperR.setAcceleration(500);
 }
 void loop() {
+  //if (regime == 0) {
   if (Serial.available()) {
-    command = Serial.read() - 48; //String().toInt();
+    command = Serial.read() - 48;
     Serial.println(command);
   }
 
@@ -77,4 +76,19 @@ void loop() {
     doing(command);
     command = 0;
   }
+
+  else if (regime == 1) {
+
+    if (Serial.available()) {
+      String read1 = (Serial.readString());
+      command = read1.toInt();
+      Serial.println(command);
+      if (command == 0) {
+        regime = 0;
+      }
+      else
+        distanse = -command;
+    }
+  }
+  Serial.println(regime);
 }
