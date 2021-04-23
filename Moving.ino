@@ -13,8 +13,6 @@ int regime = 0;
 void doing(int comand)
 {
 
-
-
   if (comand == -5) {
     distanse = distanse + delta;
     Serial.println("Дистанция увеличена, милорд");
@@ -63,18 +61,19 @@ void setup() {
   stepperR.setAcceleration(500);
 }
 void loop() {
-  //if (regime == 0) {
-  if (Serial.available()) {
-    command = Serial.read() - 48;
-    Serial.println(command);
-  }
+  if (regime == 0) {
+    if (Serial.available()) {
+      command = Serial.read() - 48;
+      Serial.println(command);
+    }
 
-  if (command == 0) {
-    doing(command);
-  }
-  else if (!stepperL.tick() || !stepperR.tick()) {
-    doing(command);
-    command = 0;
+    if (command == 0) {
+      doing(command);
+    }
+    else if (!stepperL.tick() || !stepperR.tick()) {
+      doing(command);
+      command = 0;
+    }
   }
 
   else if (regime == 1) {
