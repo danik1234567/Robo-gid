@@ -8,42 +8,53 @@ int delta = 1000;
 int distanse = 1000;
 int listanse;
 int ristanse;
-int regime = 0;
+int regime = 1;
+int kit = 0;
 
 void doing(int comand)
 {
-
-  if (comand == -5) {
-    distanse = distanse + delta;
-    Serial.println("Дистанция увеличена, милорд");
-  }
-  else if (comand == -3 && distanse > 1000) {
-    distanse = distanse - delta;
-    Serial.println("Дистанция уменьшена, милорд");
+  if (comand == 5) {
+    regime = -regime;
   }
 
-  else if (comand == 5) {
-    regime = 1;
+  if (regime == 1) {
+    if (comand == -5) {
+      distanse = distanse + delta;
+      Serial.println("Дистанция увеличена, милорд");
+    }
+    else if (comand == -3 && distanse > 1000) {
+      distanse = distanse - delta;
+      Serial.println("Дистанция уменьшена, милорд");
+    }
+
+    else if (comand == 8) {
+      listanse = -distanse;
+      ristanse = distanse;
+    }
+    else if (comand == 2) {
+      listanse = distanse;
+      ristanse = -distanse;
+    }
+    else if (comand == 4) {
+      listanse = distanse;
+      ristanse = distanse;
+    }
+    else if (comand == 6) {
+      listanse = -distanse;
+      ristanse = -distanse;
+    }
+    else if (comand == 0) {
+      listanse = 0;//listanse / distanse;
+      ristanse = 0;//ristanse / distanse;
+    }
   }
-  else if (comand == 8) {
-    listanse = -distanse;
-    ristanse = distanse;
-  }
-  else if (comand == 2) {
-    listanse = distanse;
-    ristanse = -distanse;
-  }
-  else if (comand == 4) {
-    listanse = distanse;
-    ristanse = distanse;
-  }
-  else if (comand == 6) {
-    listanse = -distanse;
-    ristanse = -distanse;
-  }
-  else if (comand == 0) {
-    listanse = 0;//listanse / distanse;
-    ristanse = 0;//ristanse / distanse;
+  else {
+    if (comand == 0)
+      regime = -regime;
+    else if (Serial.available()) {
+      String i = Serial.readString();
+      Serial.println(i);
+    }
   }
 
   stepperL.setTarget(listanse, RELATIVE);
@@ -61,33 +72,19 @@ void setup() {
   stepperR.setAcceleration(500);
 }
 void loop() {
-  if (regime == 0) {
-    if (Serial.available()) {
-      command = Serial.read() - 48;
-      Serial.println(command);
-    }
+  if (Serial.available()) {
+    command = Serial.readString().toInt();
+    Serial.println(command);
+    kit = millis();
+  }
 
-    if (command == 0) {
-      doing(command);
-    }
-    else if (!stepperL.tick() || !stepperR.tick()) {
-      doing(command);
+  if (command == 0) {
+    doing(command);
+  }
+  else if (!stepperL.tick() || !stepperR.tick()) {
+    if (millis() - kit > 1000)
       command = 0;
-    }
+    else
+      doing(command);
   }
-
-  else if (regime == 1) {
-
-    if (Serial.available()) {
-      String read1 = (Serial.readString());
-      command = read1.toInt();
-      Serial.println(command);
-      if (command == 0) {
-        regime = 0;
-      }
-      else
-        distanse = -command;
-    }
-  }
-  Serial.println(regime);
 }
