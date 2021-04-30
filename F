@@ -1,3 +1,12 @@
+#include <GyverStepper.h>
+
+int command;
+int delta = 1000;
+int distanse = delta;
+int listanse;
+int ristanse;
+int kit;
+
 void doing(int comand)
 {
   if (comand == 8) {
@@ -29,17 +38,6 @@ void stoping() {
   stepperL.setTarget(listanse, RELATIVE);
   stepperR.setTarget(ristanse, RELATIVE);
 }
-
-
-
-#include <GyverStepper.h>
-
-int command;
-int delta = 1000;
-int distanse = delta;
-int listanse;
-int ristanse;
-int kit;
 
 GStepper< STEPPER2WIRE> stepperL(1, 2, 3, 4);
 GStepper< STEPPER2WIRE> stepperR(1, 5, 6, 7);
