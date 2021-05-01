@@ -58,7 +58,7 @@ void loop() {
     if (Serial.available())
       stoping();
   }
-  else if (!stepperL.tick() || !stepperR.tick()) {
+  else {
     if (Serial.available()) {
       command = Serial.readString().toInt();
       Serial.print("Команда - ");
